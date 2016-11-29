@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+<button (click)="add()" >Add</button>
+<br>
+<button (click)="lista()" >buscar</button>
+
+
+ <ion-list *ngFor="let data of nomes" no-lines>
+ 	<ion-item>
+ 		Nome: {{data.nome}} 
+ 		Divida: {{data.divida}} 
+ 		<input type="text" style="width:30px;">
+ 		<a href="#" id={{data.id}} (click)="paga(data.id)">Pagar</a>
+ 	</ion-item>
+</ion-list>
+
+
+
+</ion-content>
