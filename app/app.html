@@ -1,0 +1,26 @@
+<ion-menu [content]="mycontent">
+  <ion-header>
+    <ion-navbar no-border-bottom color="navbarColor">
+      <ion-buttons start left>
+        <button ion-button menuClose>
+          <ion-icon name="close" color="white"></ion-icon>
+        </button>
+      </ion-buttons>
+
+      <ion-title> <p class="text-Default">Menu</p> </ion-title>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content>
+    <button ion-button block outline menuClose color="navbarColor" class="ajuste" (click)="openPage(viagemPropriedades)">
+      <ion-icon name='paper-plane' class="marginIcon"></ion-icon>
+      Criar Viagem
+    </button>
+    <button ion-button block outline icon-right menuClose color="navbarColor" class="ajuste" (click)="openPage(devedores)">
+      <ion-icon name='analytics' class="marginIcon"></ion-icon>
+      Receber
+    </button>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>

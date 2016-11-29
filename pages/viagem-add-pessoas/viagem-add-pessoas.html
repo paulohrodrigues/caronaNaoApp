@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar no-border-bottom color="navbarColor">
+    <ion-buttons start left>
+      <button ion-button icon-only>
+        <ion-icon name="arrow-back" color="white"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title> <p class="text-Default">Adicionar Passageiros</p> </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <button ion-button clear  icon-left class="predef" (click)="doPredefinida()">
+      <ion-icon name='archive' is-active="false"></ion-icon>
+      Salvar
+  </button>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let devedor of devedores">
+      <ion-item>
+        <ion-icon name="person" item-left></ion-icon>
+        <ion-row>
+          <ion-col width-90="">
+            <h4 class="nome">{{devedor}}</h4>
+            <h4 class="celular">(82)99965-1596</h4>
+          </ion-col>
+          <ion-col width-10>
+            <ion-icon class="slid" name="arrow-dropleft"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color="edit" (click)="doEdit()">
+          <ion-icon name="build"></ion-icon>
+          Editar
+        </button>
+        <button ion-button color="danger" (click)="doConfirm()">
+          <ion-icon name="trash"></ion-icon>
+          Excluir
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab color="danger" (click)="insertPessoa()">
+      <ion-icon name="person-add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button color="navbarColor" icon-left outline>
+      <ion-icon name='arrow-back'></ion-icon>
+      Voltar
+    </button>
+
+    <button ion-button color="secondary" icon-right class="iniciarViagem">
+      Iniciar Viagem
+      <ion-icon name='paper-plane'></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-footer>

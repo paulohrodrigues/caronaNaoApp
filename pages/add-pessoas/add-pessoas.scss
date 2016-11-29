@@ -1,0 +1,14 @@
+page-add-pessoas {
+  .add {
+    display: block;
+    float: right;
+  }
+
+  .desativado {
+    visibility: hidden;
+  }
+
+  .ativado {
+    visibility: visible;
+  }
+}
