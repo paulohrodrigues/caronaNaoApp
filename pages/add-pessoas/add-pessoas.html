@@ -8,45 +8,59 @@
 
     <ion-title> <p class="text-Default">Novo Passageiro</p> </ion-title>
   </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="pet">
+      <ion-segment-button value="add-banco">
+        Selecionar
+      </ion-segment-button>
+      <ion-segment-button value="add-novo">
+        Criar Novo
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <div [ngSwitch]="pet">
+    <ion-card *ngSwitchCase="'add-banco'">
+      <ion-searchbar (ionInput)="getItems($event)" placeholder="Busca" class="semBorda"></ion-searchbar>
+      <ion-list radio-group class="comScroll">
+        <ion-item *ngFor="let devedor of devedores">
+          <ion-label>
+            <h4 class="nome">{{devedor}}</h4>
+            <h4 class="celular">(82)99965-1596</h4>
+          </ion-label>
+          <ion-radio value="{{devedor}}" checked="false"></ion-radio>
+        </ion-item>
+      </ion-list>
+   </ion-card>
+
+   <ion-card [ngClass]="{'ativado': pessoaSelecionada != 'CRIAR UM NOVO...'}" *ngSwitchCase="'add-novo'">
+     <ion-list>
+        <ion-list-header color="primary">
+          Informações do passageiro novo:
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Nome:</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Celular:</ion-label>
+          <ion-input type="tel" placeholder = "(88) 8 8888-8888"></ion-input>
+        </ion-item>
+
+      </ion-list>
+   </ion-card>
+  </div>
+
   <ion-card>
-    <ion-list>
-      <ion-item>
-        <ion-label>Passageiro</ion-label>
-        <ion-select [(ngModel)]="pessoaSelecionada" [selectOptions]="peopleAlertOpts">
-           <ion-option  *ngFor="let devedor of devedores">
-             {{devedor}}
-           </ion-option>
-           <ion-option>
-              CRIAR UM NOVO...
-           </ion-option>
-        </ion-select>
-     </ion-item>
-   </ion-list>
- </ion-card>
-
- <ion-card [ngClass]="{'ativado': pessoaSelecionada != 'CRIAR UM NOVO...'}"><!--hidden-->
    <ion-list>
-     <ion-list-header color="primary"> Informações do passageiro novo: </ion-list-header>
-      <ion-item>
-        <ion-label>Nome:</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Celular:</ion-label>
-        <ion-input type="tel" placeholder = "(88) 8 8888-8888"></ion-input>
-      </ion-item>
-
-    </ion-list>
- </ion-card>
-
- <ion-card>
-   <ion-list>
-     <ion-list-header color="primary"> Quilometragem atual do veículo:</ion-list-header>
+       <ion-list-header color="primary">
+          Quilometragem atual<br>do veículo:
+       </ion-list-header>
        <ion-item>
          <ion-label> Ponto de partida </ion-label>
          <ion-toggle checked="true"></ion-toggle>
@@ -57,7 +71,7 @@
          <ion-icon name="speedometer" item-right></ion-icon>
        </ion-item>
     </ion-list>
- </ion-card>
+  </ion-card>
 
 </ion-content>
 
