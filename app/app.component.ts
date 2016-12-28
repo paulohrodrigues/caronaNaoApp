@@ -18,12 +18,11 @@ export class MyApp {
   viagemFim = ViagemFimPage;
   viagemPropriedades = ViagemPropriedadesPage;
 
-  rootPage = this.devedores;
+  rootPage = this.viagemPropriedades;
   public db:SQLite;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
-
 
       this.db= new SQLite();
       this.db.openDatabase({
@@ -44,7 +43,7 @@ export class MyApp {
               alert("erro");
      });
 
-
+          console.log("teste");
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

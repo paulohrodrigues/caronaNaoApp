@@ -1,9 +1,6 @@
 <ion-header>
   <ion-navbar no-border-bottom color="navbarColor">
     <ion-buttons start left>
-      <button ion-button icon-only>
-        <ion-icon name="arrow-back" color="white"></ion-icon>
-      </button>
     </ion-buttons>
 
     <ion-title> <p class="text-Default">Adicionar Passageiros</p> </ion-title>
@@ -53,12 +50,12 @@
 
 <ion-footer>
   <ion-toolbar>
-    <button ion-button color="navbarColor" icon-left outline>
+   <!-- <button ion-button color="navbarColor" icon-left outline>
       <ion-icon name='arrow-back'></ion-icon>
       Voltar
     </button>
-
-    <button ion-button color="secondary" icon-right class="iniciarViagem">
+    -->
+    <button ion-button color="secondary" icon-right class="iniciarViagem" (click)='openPage()'>
       Iniciar Viagem
       <ion-icon name='paper-plane'></ion-icon>
     </button>

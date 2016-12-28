@@ -4,6 +4,7 @@ import { AlertController } from 'ionic-angular';
 import { ModalController, Platform, NavParams, ViewController } from 'ionic-angular';
 
 import { AddPessoasPage } from '../add-pessoas/add-pessoas';
+import { ViagemFimPage } from '../viagem-fim/viagem-fim';
 
 /*
   Generated class for the ViagemAddPessoas page.
@@ -30,6 +31,12 @@ export class ViagemAddPessoasPage {
   ionViewDidLoad() {
     console.log('Hello ViagemAddPessoasPage Page');
   }
+
+
+  openPage(){
+    this.navCtrl.push(ViagemFimPage);
+  }
+
 
   initializeItems() {
     this.devedores = [

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { ViagemAddPessoasPage } from '../viagem-add-pessoas/viagem-add-pessoas';
 
 
 
@@ -11,12 +12,12 @@ export class ViagemPropriedadesPage {
 
   constructor(
     public navCtrl: NavController
-  ) {
+  ){
 
   }
 
-  openPage(option) {
-
+  openPage() {
+    this.navCtrl.push(ViagemAddPessoasPage);
   }
 
 }
