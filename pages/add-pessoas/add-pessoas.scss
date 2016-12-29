@@ -11,4 +11,16 @@ page-add-pessoas {
   .ativado {
     visibility: visible;
   }
+
+  .comScroll {
+    height: 200px;
+    overflow: auto;
+  }
+
+  .semBorda {
+    outline: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
 }
