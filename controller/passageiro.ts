@@ -11,6 +11,8 @@ export class Passageiro implements Ipassageiro{
 	
 	//Atributos basicos da class
 	private _divida:number=0.0;
+	public quilometragemInicial;
+	public valorBrutoDoCaminho;
 
 	//construtor
 	constructor(private _nome:string,private _celular:string,divida?:number,private _id?:number){

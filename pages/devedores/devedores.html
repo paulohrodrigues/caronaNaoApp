@@ -28,11 +28,13 @@
         <ion-icon name="person" item-left></ion-icon>
         <ion-row>
           <ion-col width-50>
-            <h4 class="nome">{{devedor}}</h4>
-            <h4 class="celular">(82)99965-1596</h4>
+            <h4 class="nome">{{devedor.nome}}</h4>
+            <h4 class="celular">{{devedor.celular}}</h4>
           </ion-col>
           <ion-col width-33>
-            <span class="reaisDeve">-R$ 99.99</span>
+            <span class="reaisDeve" *ngIf="devedor.divida<0">      R$ {{devedor.divida.toFixed(2)}}    </span>
+            <span class="reaisPaga" *ngIf="devedor.divida==0">     R$ {{devedor.divida.toFixed(2)}}    </span>
+            <span class="reaisPaga" *ngIf="devedor.divida>0">      R$ {{devedor.divida.toFixed(2)}}    </span>
           </ion-col>
           <ion-col width-10>
             <ion-icon class="slid" name="arrow-dropleft"></ion-icon>

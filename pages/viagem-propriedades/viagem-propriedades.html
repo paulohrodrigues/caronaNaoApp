@@ -11,6 +11,11 @@
 
 <ion-content padding>
 
+  <div *ngIf="exceptionViagemVariavel" class="alerta-erro">
+    <strong>* Todos os campos são obrigatorios</strong>
+  </div>
+
+
   <ion-card>
     <ion-list>
         <ion-list-header color="primary" class="topList">
@@ -18,13 +23,13 @@
         </ion-list-header>
         <ion-item>
           <ion-label floating>Quilometragem atual</ion-label>
-          <ion-input type="number" value=""></ion-input>
+          <ion-input type="number" value="" [(ngModel)]="parametros.quilometragem"></ion-input>
           <ion-icon name="speedometer" item-right></ion-icon>
         </ion-item>
 
         <ion-item>
           <ion-label floating>Consumo (Km/l)</ion-label>
-          <ion-input type="number" value=""></ion-input>
+          <ion-input type="number" value="" [(ngModel)]="parametros.consumo"></ion-input>
           <ion-icon name="car" item-right></ion-icon>
         </ion-item>
      </ion-list>
@@ -37,7 +42,7 @@
           </ion-list-header>
           <ion-item>
             <ion-label floating>Preço (R$)</ion-label>
-            <ion-input type="number" value=""></ion-input>
+            <ion-input type="number" value="" [(ngModel)]="parametros.precoGasolina"></ion-input>
             <ion-icon name="water" item-right></ion-icon>
           </ion-item>
         </ion-list>
@@ -47,7 +52,7 @@
 
 <ion-footer>
     <ion-toolbar>
-      <button ion-button color="navbarColor" icon-right class="proximo" (click)="openPage()">
+      <button ion-button color="navbarColor" icon-right class="proximo" (click)="criaViagem()">
         Próximo
         <ion-icon name='arrow-forward'></ion-icon>
       </button>

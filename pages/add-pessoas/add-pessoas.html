@@ -17,28 +17,25 @@
       <ion-item>
         <ion-label>Passageiro</ion-label>
         <ion-select [(ngModel)]="pessoaSelecionada" [selectOptions]="peopleAlertOpts">
-           <ion-option  *ngFor="let devedor of devedores">
-             {{devedor}}
-           </ion-option>
-           <ion-option>
-              CRIAR UM NOVO...
-           </ion-option>
+           <ion-option *ngFor="let devedor of devedores" value={{devedor.tel}}>{{devedor.nome}}</ion-option>
+           <ion-option value="criar">CRIAR NOVO</ion-option>
         </ion-select>
      </ion-item>
    </ion-list>
  </ion-card>
 
- <ion-card [ngClass]="{'ativado': pessoaSelecionada != 'CRIAR UM NOVO...'}"><!--hidden-->
+ <ion-card *ngIf="pessoaSelecionada=='criar'">
+   <!--hidden-->
    <ion-list>
      <ion-list-header color="primary"> Informações do passageiro novo: </ion-list-header>
       <ion-item>
         <ion-label>Nome:</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="passageiroNovo.nome"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Celular:</ion-label>
-        <ion-input type="tel" placeholder = "(88) 8 8888-8888"></ion-input>
+        <ion-input type="tel" placeholder = "(88) 8 8888-8888" [(ngModel)]="passageiroNovo.tel"></ion-input>
       </ion-item>
 
     </ion-list>
@@ -49,11 +46,11 @@
      <ion-list-header color="primary"> Quilometragem atual do veículo:</ion-list-header>
        <ion-item>
          <ion-label> Ponto de partida </ion-label>
-         <ion-toggle checked="true"></ion-toggle>
+         <ion-toggle checked="false" [(ngModel)]='checkedQuilometragem' (click)="quilometrosInput=''"></ion-toggle>
        </ion-item>
-       <ion-item class="ativado">
+       <ion-item class="ativado" *ngIf='checkedQuilometragem==false'>
          <ion-label floating>Quilometragem</ion-label>
-         <ion-input type="text"></ion-input>
+         <ion-input type="number" [(ngModel)]="quilometrosInput"></ion-input>
          <ion-icon name="speedometer" item-right></ion-icon>
        </ion-item>
     </ion-list>
@@ -67,7 +64,7 @@
       Cancelar
     </button>
 
-    <button ion-button color="primary" icon-right class="add">
+    <button ion-button color="primary" icon-right class="add" (click)="addPassageiro()" *ngIf="(pessoaSelecionada!=null && quilometrosInput!='') || (pessoaSelecionada!=null && checkedQuilometragem==true)">
       Adicionar
       <ion-icon name='add-circle'></ion-icon>
     </button>

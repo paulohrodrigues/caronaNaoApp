@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
-import { ModalController, Platform, NavParams, ViewController } from 'ionic-angular';
+import { AlertController} from 'ionic-angular';
+import { ModalController, Platform, NavParams, ViewController} from 'ionic-angular';
 
 import { AddPessoasPage } from '../add-pessoas/add-pessoas';
 import { ViagemFimPage } from '../viagem-fim/viagem-fim';
+import { Passageiro } from '../../controller/passageiro';
 
 /*
   Generated class for the ViagemAddPessoas page.
@@ -17,15 +18,28 @@ import { ViagemFimPage } from '../viagem-fim/viagem-fim';
   templateUrl: 'viagem-add-pessoas.html'
 })
 export class ViagemAddPessoasPage {
-  devedores;
+  passageiros:Array<Passageiro>;
+  viagem;
+  constructor(
+    public navCtrl: NavController, 
+    public alertCtrl: AlertController, 
+    public modalCtrl: ModalController,
+    public param:NavParams
+  ) {
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public modalCtrl: ModalController) {
     this.initializeItems();
+    this.viagem=param.get("viagem");
+
   }
 
   insertPessoa() {
-    let modal = this.modalCtrl.create(AddPessoasPage);
+    let modal = this.modalCtrl.create(AddPessoasPage,{"passageiros":this.passageiros,"quilometragemInicial":this.viagem.getQuilometragem()});
     modal.present();
+    modal.onDidDismiss((passageiro:Passageiro)=>{
+      if(passageiro!=null){
+        this.passageiros.push(passageiro);
+      }
+    });
   }
 
   ionViewDidLoad() {
@@ -34,17 +48,23 @@ export class ViagemAddPessoasPage {
 
 
   openPage(){
-    this.navCtrl.push(ViagemFimPage);
+    this.navCtrl.push(ViagemFimPage,{"viagem":this.viagem,"passageiros":this.passageiros});
   }
 
 
   initializeItems() {
-    this.devedores = [
-      'José',
-      'Maria',
-      'Amanda'
+    this.passageiros = [
     ];
   }
+
+  buscaPassageiro(tel){
+    for(var passageiro in this.passageiros){
+      if(this.passageiros[passageiro].celular==tel){
+        return passageiro;
+      }
+    }
+  }
+
 
   doPredefinida() {
     let confirm = this.alertCtrl.create({
@@ -68,10 +88,10 @@ export class ViagemAddPessoasPage {
     confirm.present();
   }
 
-  doConfirm() {
+  doConfirm(passageiro) {
     let confirm = this.alertCtrl.create({
       title: 'Realmente deseja excluir?',
-      message: 'Você removerá Maria da viagem.',
+      message: 'Você removerá '+passageiro.nome+' da viagem.',
       buttons: [
         {
           text: 'Não',
@@ -82,7 +102,9 @@ export class ViagemAddPessoasPage {
         {
           text: 'Sim',
           handler: () => {
-            console.log('Agree clicked');
+            this.passageiros.splice(parseInt(this.buscaPassageiro(passageiro.celular)),1);
+            console.log(this.passageiros);
+            console.log("teste");
           }
         }
       ]

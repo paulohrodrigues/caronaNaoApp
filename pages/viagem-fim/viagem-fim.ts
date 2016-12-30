@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController,NavParams,ViewController,App} from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-
+import { Financeiro } from '../../controller/financeiro';
+import { DAOPassageiro } from '../../model/DAOPassageiro';
+import { DevedoresPage } from '../devedores/devedores';
 /*
   Generated class for the ViagemFim page.
 
@@ -14,7 +16,23 @@ import { AlertController } from 'ionic-angular';
 })
 export class ViagemFimPage {
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {}
+  viagem;
+  passageiros;
+  financeiro:Financeiro;
+  db:DAOPassageiro;
+
+  constructor(
+    public appCtrl:App,
+    public navCtrl: ViewController, 
+    public alertCtrl: AlertController,
+    public param:NavParams,
+    public navCtrl1:NavController
+  ) {
+    this.db=new DAOPassageiro();
+    this.viagem=param.get("viagem");
+    this.financeiro=new Financeiro(this.viagem.getPrecoGasolina(),this.viagem.getConsumo());
+    this.passageiros=param.get("passageiros");
+  }
 
   ionViewDidLoad() {
     console.log('Hello ViagemFimPage Page');
@@ -41,11 +59,72 @@ export class ViagemFimPage {
         {
           text: 'Finalizar',
           handler: data => {
-            console.log('Saved clicked');
+            console.log(data);
+            this.controleDeCalculoFinal(parseFloat(data.title));
           }
         }
       ]
     });
     prompt.present();
   }
+
+  controleDeCalculoFinal(final){
+    //add o valor da viagem na tragetoria de cada um dos passageiros
+    for(let key in this.passageiros){
+      //alert(this.passageiros[key].quilometragemInicial);
+      //alert(final);
+      this.passageiros[key].valorBrutoDoCaminho=this.financeiro.calculaPrecoDeUmCaminho(
+        this.passageiros[key].quilometragemInicial,
+        final
+      );
+    }
+    
+    //ordenar os passageiros por menor valor da viagem, ordenação bolha
+    var quardaTmp;
+    while(true){
+      var muda=false;
+      for(var i=1;i<this.passageiros.length;i++){
+        if(this.passageiros[i-1].valorBrutoDoCaminho>this.passageiros[i].valorBrutoDoCaminho){
+          muda=true;
+          quardaTmp=this.passageiros[i-1];
+          this.passageiros[i-1]=this.passageiros[i];
+          this.passageiros[i]=quardaTmp;
+        }
+      }
+      if(muda==false){
+        break;
+      }
+    }
+
+    //calcula a divida e salva no banco de dados
+    var ultimoTamanho=0;
+    var taDevendo=[];
+    for(let key in this.passageiros){
+      var essePassageiroDeve:number=0;
+      essePassageiroDeve=((this.passageiros[key].valorBrutoDoCaminho-ultimoTamanho)/(this.passageiros.length+1));
+      ultimoTamanho=((this.passageiros[key].valorBrutoDoCaminho-ultimoTamanho)==0)?ultimoTamanho:(this.passageiros[key].valorBrutoDoCaminho-ultimoTamanho);
+      var proximoVaiDever=essePassageiroDeve;
+
+      //alert(this.passageiros[key].valorBrutoDoCaminho);
+      //alert(this.passageiros.length+1);
+
+      for(let keyDeve in taDevendo){
+        essePassageiroDeve+=taDevendo[keyDeve];
+      }
+      //alert(essePassageiroDeve);
+      taDevendo.push(proximoVaiDever);
+      this.db.atualiza("divida=divida-"+essePassageiroDeve,"celular=?",[this.passageiros[key].celular]).then((data)=>{
+        //alert(data);
+      });
+      //alert(this.passageiros[key].celular);
+    }
+    
+    this.navCtrl1.setRoot(DevedoresPage);
+    
+    
+  }
+
+  
 }
+
+

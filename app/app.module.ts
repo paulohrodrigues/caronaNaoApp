@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+
 import { DevedoresPage } from '../pages/devedores/devedores';
 import { AddPessoasPage } from '../pages/add-pessoas/add-pessoas';
 import { ViagemAddPessoasPage } from '../pages/viagem-add-pessoas/viagem-add-pessoas';
@@ -11,7 +11,6 @@ import { ViagemPropriedadesPage } from '../pages/viagem-propriedades/viagem-prop
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
     DevedoresPage,
     AddPessoasPage,
     ViagemAddPessoasPage,
@@ -24,7 +23,6 @@ import { ViagemPropriedadesPage } from '../pages/viagem-propriedades/viagem-prop
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
     DevedoresPage,
     AddPessoasPage,
     ViagemAddPessoasPage,

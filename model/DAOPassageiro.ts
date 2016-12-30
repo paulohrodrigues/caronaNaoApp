@@ -15,44 +15,52 @@ export class DAOPassageiro{
     }
 
     add(dados){
+        return new Promise((resolve)=>{
+            this.db.openDatabase({name: "data.db", location: "default"}).then(() => {
+                
+                this.db.executeSql("insert into passageiro(nome,celular,divida) values (?,?,?)",[dados.nome,dados.celular,dados.divida]).then((data) => {
+                    //alert("salvo");
+                    resolve(true);
+                    //console.log("salvo");
+                }, (error) => {
+                    console.log("ERROR: " + JSON.stringify(error));
+                });
 
-        this.db.openDatabase({name: "data.db", location: "default"}).then(() => {
-            
-            this.db.executeSql("insert into passageiro(nome,celular,divida) values (?,?,?)",[dados.nome,dados.celular,dados.divida]).then((data) => {
-                console.log("salvo");
+
             }, (error) => {
-                console.log("ERROR: " + JSON.stringify(error));
+                console.log("ERROR: ", error);
             });
-
-
-        }, (error) => {
-            console.log("ERROR: ", error);
         });
-
 
     }
 
 
-    atualiza(stringCondicao,arrayCondicao){
+    atualiza(edicao,stringCondicao,arrayCondicao){
 
-        var self=this;
-        this.db.openDatabase({name: "data.db", location: "default"}).then(() => {
-            
-            this.db.executeSql("UPDATE passageiro SET divida='0' WHERE "+stringCondicao,arrayCondicao).then((data)=>{
+        return new Promise((resolve)=>{
+            var self=this;
+            this.db.openDatabase({name: "data.db", location: "default"}).then(() => {
                 
-                self.busca("divida>?",[0]);
-                console.log("Sucesse!");
+                this.db.executeSql("UPDATE passageiro SET "+edicao+" WHERE "+stringCondicao,arrayCondicao).then((data)=>{
+                    
+                    resolve(true); 
+
+                // self.busca("divida>?",[0]);
+                    //console.log("Sucesse!");
+
+                }, (error) => {
+
+                    console.log("ERROR: " + JSON.stringify(error));
+                    resolve(false); 
+                
+                });
 
             }, (error) => {
-
-                console.log("ERROR: " + JSON.stringify(error));
+            
+                console.log("ERROR: ", error);
+                resolve(false); 
             
             });
-
-        }, (error) => {
-        
-            console.log("ERROR: ", error);
-        
         });
 
 
@@ -62,29 +70,29 @@ export class DAOPassageiro{
 
 	busca(condicaoString,condicaoArray):any{
 
-        
-        var self=this;
-        this.db.openDatabase({name: "data.db", location: "default"}).then(() => {
-            
-            this.db.executeSql("SELECT * FROM passageiro where "+condicaoString, condicaoArray).then((data)=>{
+        return new Promise((resolve)=>{
+            var self=this;
+            this.db.openDatabase({name: "data.db", location: "default"}).then(() => {
                 
-                self.listaDePassageiros=data;    
-                return data;
+                this.db.executeSql("SELECT * FROM passageiro where "+condicaoString, condicaoArray).then((data)=>{
+                    
+                    
+                    resolve(data);
+
+                }, (error) => {
+                    console.log("ERROR: " + JSON.stringify(error));
+                });
+
 
             }, (error) => {
-                console.log("ERROR: " + JSON.stringify(error));
+                console.log("ERROR: ", error);
             });
 
+            //setTimeout(()=>{
+                return this.listaDePassageiros;
+            //},400);
 
-        }, (error) => {
-            console.log("ERROR: ", error);
         });
-
-        //setTimeout(()=>{
-            return this.listaDePassageiros;
-        //},400);
-
-        
         
 	}
 }

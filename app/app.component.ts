@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen,SQLite} from 'ionic-native';
-import { HomePage } from '../pages/home/home';
+
 import { DevedoresPage } from '../pages/devedores/devedores';
 import { AddPessoasPage } from '../pages/add-pessoas/add-pessoas';
 import { ViagemAddPessoasPage } from '../pages/viagem-add-pessoas/viagem-add-pessoas';
@@ -29,8 +29,8 @@ export class MyApp {
               name: "data.db",
               location: "default"
           }).then(() => {
-              this.db.executeSql("CREATE TABLE IF NOT EXISTS passageiro (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,celular TEXT,divida REAL)", {}).then((data) => {
-                  alert("TABLE CREATED");
+              this.db.executeSql("CREATE TABLE IF NOT EXISTS passageiro (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,celular TEXT,divida REAL(100,2))", {}).then((data) => {
+                  //alert("TABLE CREATED");
                   console.log("TABLE CREATED: ", data);
 
             }, (error) => {

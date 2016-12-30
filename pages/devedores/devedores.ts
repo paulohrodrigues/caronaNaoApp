@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { DAOPassageiro } from '../../model/DAOPassageiro';
 
 @Component({
   selector: 'page-devedores',
@@ -9,9 +10,10 @@ import { AlertController } from 'ionic-angular';
 })
 export class DevedoresPage {
   devedores;
-
+  db:DAOPassageiro;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
+    this.db=new DAOPassageiro();
     this.initializeItems();
   }
 
@@ -67,16 +69,30 @@ export class DevedoresPage {
 
 
   initializeItems() {
-    this.devedores = [
-      'José',
-      'Maria',
-      'Amanda'
-    ];
+    return new Promise((resolve)=>{
+      this.db.busca("1=?",[1]).then((pesquisa)=>{
+      
+        this.devedores = [
+        ];
+
+        if(pesquisa.rows.length > 0) {
+          for(var i = 0; i < pesquisa.rows.length; i++) {
+            this.devedores.push({
+              nome:pesquisa.rows.item(i).nome,
+              celular:pesquisa.rows.item(i).celular,
+              divida:pesquisa.rows.item(i).divida
+            });
+          }
+          resolve(true);
+        }
+
+      });
+    });
   }
 
   getItems(ev) {
     // Reset items back to all of the items
-    this.initializeItems();
+    this.initializeItems().then(()=>{
 
     // set val to the value of the ev target
     var val = ev.target.value;
@@ -84,8 +100,9 @@ export class DevedoresPage {
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.devedores = this.devedores.filter((item) => {
-        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return (item.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
+    });
   }
 }
