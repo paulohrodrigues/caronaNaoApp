@@ -34,6 +34,26 @@ export class DAOPassageiro{
 
     }
 
+    remove(condicao,arrayCondicao){
+        return new Promise((resolve)=>{
+            this.db.openDatabase({name: "data.db", location: "default"}).then(() => {
+                
+                this.db.executeSql("delete from passageiro where "+condicao,arrayCondicao).then((data) => {
+                    //alert("salvo");
+                    resolve(true);
+                    //console.log("salvo");
+                }, (error) => {
+                    console.log("ERROR: " + JSON.stringify(error));
+                });
+
+
+            }, (error) => {
+                console.log("ERROR: ", error);
+            });
+        });
+
+    }
+
 
     atualiza(edicao,stringCondicao,arrayCondicao){
 

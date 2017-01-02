@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { DAOPassageiro } from '../../model/DAOPassageiro';
@@ -17,10 +16,10 @@ export class DevedoresPage {
     this.initializeItems();
   }
 
-  doConfirm() {
+  remove(pessoa) {
     let confirm = this.alertCtrl.create({
       title: 'Realmente deseja excluir?',
-      message: 'Você removerá Maria da lista de devedores.',
+      message: 'Você removerá '+pessoa.nome+' da lista de devedores.',
       buttons: [
         {
           text: 'Não',
@@ -31,7 +30,9 @@ export class DevedoresPage {
         {
           text: 'Sim',
           handler: () => {
-            console.log('Agree clicked');
+           this.db.remove("celular=?",[pessoa.celular]).then(()=>{
+             this.initializeItems();
+           });
           }
         }
       ]
@@ -39,10 +40,10 @@ export class DevedoresPage {
     confirm.present()
   }
 
-  inputSaldo() {
+  inputSaldo(pessoa) {
     let prompt = this.alertCtrl.create({
       title: 'Pagamento',
-      message: "Digite o valor que receberá de Maria, ela deve R$ 5.00.",
+      message: "Digite o valor que receberá de "+pessoa.nome+", ela deve R$ "+pessoa.divida.toFixed(2),
       inputs: [
         {
           name: 'saldo',
@@ -59,12 +60,65 @@ export class DevedoresPage {
         {
           text: 'Receber',
           handler: data => {
-            console.log('Saved clicked');
+            this.recebe(pessoa,data.saldo);
           }
         }
       ]
     });
     prompt.present();
+  }
+
+  doEdit(pessoa){
+     let prompt = this.alertCtrl.create({
+      title: 'Edição',
+      message: "Dados de "+pessoa.nome,
+      inputs: [
+        {
+          name: 'nome',
+          value: pessoa.nome
+        },
+        {
+          name: 'celular',
+          value: pessoa.celular
+        },
+        {
+          name: 'saldo',
+          value: pessoa.divida
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Editar',
+          handler: data => {
+            this.db.atualiza("nome='"+data.nome+"',celular='"+data.celular+"',divida="+data.saldo,"celular=?",[pessoa.celular]).then(()=>{
+              this.initializeItems();
+            });
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  recebe(pessoa,r){
+    if(!isNaN(r)){
+      this.db.atualiza("divida=divida+"+parseFloat(r),"celular=?",[pessoa.celular]).then((data)=>{ 
+        this.initializeItems();
+      });
+    }else{
+      let alert = this.alertCtrl.create({
+        title: 'Aviso!',
+        subTitle: "Valor Invalido!",
+        buttons: ['OK']
+      });
+       alert.present();
+    }
   }
 
 

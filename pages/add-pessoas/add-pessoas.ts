@@ -15,7 +15,7 @@ import { DAOPassageiro } from '../../model/DAOPassageiro';
 })
 export class AddPessoasPage {
 
-
+  pet;
   pessoaSelecionada: string;
   devedores;
   peopleAlertOpts: { title: string, subTitle: string };
@@ -25,13 +25,14 @@ export class AddPessoasPage {
   passageirosEmbarcados;
   quilometragemInicial;
   quilometrosInput;
-
+  teste;
   constructor(
     public navCtrl: NavController,
     public viewCtrl: ViewController,
     public alertCtrl:AlertController,
     public param:NavParams
   ) {
+      this.pet="add-banco";
       this.quilometrosInput='';
       this.passageirosEmbarcados=param.get("passageiros");
       this.quilometragemInicial=param.get("quilometragemInicial");
@@ -60,6 +61,10 @@ export class AddPessoasPage {
     }
   }
 
+condicaoBotaoAdicionar(){
+  return ((this.pessoaSelecionada!=null && this.quilometrosInput!='')  || (this.pessoaSelecionada!=null && this.checkedQuilometragem==true));
+}
+
   buscaPassageirosEmbarcados(tel):number{
     for(var passageiro in this.passageirosEmbarcados){
       if(this.passageirosEmbarcados[passageiro].celular==tel){
@@ -70,6 +75,11 @@ export class AddPessoasPage {
   }
 
   initializeItems() {
+    this.devedores=[];
+     this.passageiroNovo={
+        nome:null,
+        tel:null
+      }
     this.db.busca("1=?",[1]).then((pesquisa)=>{
     
       this.pessoaSelecionada=null;
@@ -77,7 +87,7 @@ export class AddPessoasPage {
         nome:null,
         tel:null
       }
-      this.devedores = [];
+      
       
       if(pesquisa.rows.length > 0) {
         for(var i = 0; i < pesquisa.rows.length; i++) {
@@ -89,6 +99,7 @@ export class AddPessoasPage {
       }else{
         this.devedores = [];
       }
+      
     });
     
   }
@@ -109,6 +120,12 @@ export class AddPessoasPage {
         this.passageiroNovo.nome==null || this.passageiroNovo.nome=="" ||
         this.passageiroNovo.tel==null  || this.passageiroNovo.tel==""
       ){
+       let alert = this.alertCtrl.create({
+            title: 'Aviso!',
+            subTitle: 'Dados Incompletos',
+            buttons: ['OK']
+          });
+          alert.present();
         this.viewCtrl.dismiss(null);
       }else{
         this.db.busca("celular=?",[this.passageiroNovo.tel]).then((pesquisa)=>{

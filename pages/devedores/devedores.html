@@ -42,11 +42,15 @@
         </ion-row>
       </ion-item>
       <ion-item-options>
-        <button ion-button color="secondary" (click)="inputSaldo()">
+        <button ion-button color="edit" (click)="doEdit(devedor)">
+          <ion-icon name="build"></ion-icon>
+          Editar
+        </button>
+        <button ion-button color="secondary" (click)="inputSaldo(devedor)">
           <ion-icon name="cash"></ion-icon>
           Receber
         </button>
-        <button ion-button color="danger" (click)="doConfirm()">
+        <button ion-button color="danger" (click)="remove(devedor)">
           <ion-icon name="trash"></ion-icon>
           Excluir
         </button>
