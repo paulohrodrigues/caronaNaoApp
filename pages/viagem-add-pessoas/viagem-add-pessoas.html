@@ -56,7 +56,7 @@
       Voltar
     </button>
     -->
-    <button ion-button color="secondary" icon-right class="iniciarViagem" (click)='openPage()' *ngIf="passageiros.length>=1">
+    <button ion-button color="secondary" icon-right class="iniciarViagem" (click)='openPage()' [disabled]="passageiros.length < 1">
       Iniciar Viagem
       <ion-icon name='paper-plane'></ion-icon>
     </button>

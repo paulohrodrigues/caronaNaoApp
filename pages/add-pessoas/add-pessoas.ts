@@ -75,31 +75,33 @@ condicaoBotaoAdicionar(){
   }
 
   initializeItems() {
-    this.devedores=[];
-     this.passageiroNovo={
-        nome:null,
-        tel:null
-      }
-    this.db.busca("1=?",[1]).then((pesquisa)=>{
-    
-      this.pessoaSelecionada=null;
-      this.passageiroNovo={
-        nome:null,
-        tel:null
-      }
-      
-      
-      if(pesquisa.rows.length > 0) {
-        for(var i = 0; i < pesquisa.rows.length; i++) {
-          this.devedores.push({
-            nome:pesquisa.rows.item(i).nome,
-            tel:pesquisa.rows.item(i).celular
-          });
+    return new Promise((resolve)=>{
+      this.devedores=[];
+       this.passageiroNovo={
+          nome:null,
+          tel:null
         }
-      }else{
-        this.devedores = [];
-      }
+      this.db.busca("1=?",[1]).then((pesquisa)=>{
       
+        this.pessoaSelecionada=null;
+        this.passageiroNovo={
+          nome:null,
+          tel:null
+        }
+        
+        
+        if(pesquisa.rows.length > 0) {
+          for(var i = 0; i < pesquisa.rows.length; i++) {
+            this.devedores.push({
+              nome:pesquisa.rows.item(i).nome,
+              tel:pesquisa.rows.item(i).celular
+            });
+          }
+        }else{
+          this.devedores = [];
+        }
+        resolve(true);
+      });
     });
     
   }
@@ -112,6 +114,23 @@ condicaoBotaoAdicionar(){
     this.viewCtrl.dismiss(null);
   }
 
+
+
+  getItems(ev) {
+    // Reset items back to all of the items
+    this.initializeItems().then(()=>{
+
+    // set val to the value of the ev target
+    var val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.devedores = this.devedores.filter((item) => {
+        return (item.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+    });
+  }
 
 
   addPassageiro(){

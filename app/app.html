@@ -7,19 +7,25 @@
         </button>
       </ion-buttons>
 
-      <ion-title> <p class="text-Default">Menu</p> </ion-title>
+      <ion-title> <p class="text-Default centro">Carona Não</p> </ion-title>
     </ion-navbar>
   </ion-header>
 
   <ion-content>
-    <button ion-button block outline menuClose color="navbarColor" class="ajuste" (click)="openPage(viagemPropriedades)">
-      <ion-icon name='paper-plane' class="marginIcon"></ion-icon>
-      Criar Viagem
-    </button>
-    <button ion-button block outline icon-right menuClose color="navbarColor" class="ajuste" (click)="openPage(devedores)">
-      <ion-icon name='analytics' class="marginIcon"></ion-icon>
-      Receber
-    </button>
+    <ion-list>
+      <ion-list-header class="headerMenu" color="corTopList">
+        Menu
+      </ion-list-header>
+      <ion-item class="menu" menuClose (click)="openPage(viagemPropriedades)">
+        <ion-icon name="paper-plane" item-left></ion-icon>
+        Criar Viagem
+      </ion-item>
+
+      <ion-item class="menu" menuClose (click)="openPage(devedores)">
+        <ion-icon name="analytics" item-left></ion-icon>
+        Receber
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-menu>
 

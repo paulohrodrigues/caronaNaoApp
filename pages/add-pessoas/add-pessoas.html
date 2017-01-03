@@ -82,7 +82,7 @@
       Cancelar
     </button>
 
-    <button ion-button color="primary" icon-right class="add" (click)="addPassageiro()" *ngIf="condicaoBotaoAdicionar()">
+    <button ion-button color="primary" icon-right class="add" (click)="addPassageiro()" [disabled]="!condicaoBotaoAdicionar()">
       Adicionar
       <ion-icon name='add-circle'></ion-icon>
     </button>
