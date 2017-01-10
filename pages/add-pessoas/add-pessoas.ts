@@ -61,8 +61,23 @@ export class AddPessoasPage {
     }
   }
 
-condicaoBotaoAdicionar(){
+
+
+condicaoBotaoAddNovo(){
   return ((this.pessoaSelecionada!=null && this.quilometrosInput!='')  || (this.pessoaSelecionada!=null && this.checkedQuilometragem==true));
+}
+
+condicaoBotaoAddBanco(){
+  return ((this.passageiroNovo.nome!=null && this.passageiroNovo.nome!="") && (this.passageiroNovo.tel!=null  && this.passageiroNovo.tel!="") && this.checkedQuilometragem==true ||
+          (this.passageiroNovo.nome!=null && this.passageiroNovo.nome!="") && (this.passageiroNovo.tel!=null  && this.passageiroNovo.tel!="") && this.quilometrosInput!='');
+}
+
+condicaoBotaoAdicionar(){
+  if (this.pet == "add-banco") {
+    return this.condicaoBotaoAddNovo();
+  } else {
+    return this.condicaoBotaoAddBanco();
+  }
 }
 
   buscaPassageirosEmbarcados(tel):number{
@@ -82,14 +97,14 @@ condicaoBotaoAdicionar(){
           tel:null
         }
       this.db.busca("1=?",[1]).then((pesquisa)=>{
-      
+
         this.pessoaSelecionada=null;
         this.passageiroNovo={
           nome:null,
           tel:null
         }
-        
-        
+
+
         if(pesquisa.rows.length > 0) {
           for(var i = 0; i < pesquisa.rows.length; i++) {
             this.devedores.push({
@@ -103,7 +118,7 @@ condicaoBotaoAdicionar(){
         resolve(true);
       });
     });
-    
+
   }
 
   ionViewDidLoad() {
@@ -148,7 +163,7 @@ condicaoBotaoAdicionar(){
         this.viewCtrl.dismiss(null);
       }else{
         this.db.busca("celular=?",[this.passageiroNovo.tel]).then((pesquisa)=>{
-          if(pesquisa.rows.length > 0) {    
+          if(pesquisa.rows.length > 0) {
             let alert = this.alertCtrl.create({
               title: 'Aviso!',
               subTitle: 'Já existe uma pessoa com esse número de celular',
@@ -163,7 +178,7 @@ condicaoBotaoAdicionar(){
                 divida:0.0
               }
             );
-            
+
             var passageiroParaAdd=new Passageiro(this.passageiroNovo.nome,this.passageiroNovo.tel);
             passageiroParaAdd.quilometragemInicial=(this.checkedQuilometragem)?this.quilometragemInicial:this.quilometrosInput;
             this.viewCtrl.dismiss(passageiroParaAdd);
@@ -180,11 +195,11 @@ condicaoBotaoAdicionar(){
         );
         passageiroParaAdd.quilometragemInicial=(this.checkedQuilometragem)?this.quilometragemInicial:this.quilometrosInput;
         this.viewCtrl.dismiss(passageiroParaAdd);
-        
+
       }else{
         let alert = this.alertCtrl.create({
           title: 'Aviso!',
-          subTitle: "Essa pessoa já esta embarcada nessa viagem",
+          subTitle: "Essa pessoa já está embarcada nessa viagem.",
           buttons: ['OK']
         });
         alert.present();

@@ -43,7 +43,7 @@ export class DevedoresPage {
   inputSaldo(pessoa) {
     let prompt = this.alertCtrl.create({
       title: 'Pagamento',
-      message: "Digite o valor que receberá de "+pessoa.nome+", ela deve R$ "+pessoa.divida.toFixed(2),
+      message: "Digite o valor que receberá de "+pessoa.nome+", ela deve R$ "+ Math.abs(pessoa.divida.toFixed(2)),
       inputs: [
         {
           name: 'saldo',
@@ -108,7 +108,7 @@ export class DevedoresPage {
 
   recebe(pessoa,r){
     if(!isNaN(r)){
-      this.db.atualiza("divida=divida+"+parseFloat(r),"celular=?",[pessoa.celular]).then((data)=>{ 
+      this.db.atualiza("divida=divida+"+parseFloat(r),"celular=?",[pessoa.celular]).then((data)=>{
         this.initializeItems();
       });
     }else{
@@ -125,7 +125,7 @@ export class DevedoresPage {
   initializeItems() {
     return new Promise((resolve)=>{
       this.db.busca("1=?",[1]).then((pesquisa)=>{
-      
+
         this.devedores = [
         ];
 
