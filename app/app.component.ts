@@ -29,7 +29,7 @@ export class MyApp {
               name: "data.db",
               location: "default"
           }).then(() => {
-              this.db.executeSql("CREATE TABLE IF NOT EXISTS passageiro (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,celular TEXT,divida REAL(100,2))", {}).then((data) => {
+              this.db.executeSql("CREATE TABLE IF NOT EXISTS passageiro (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,celular TEXT NOT NULL UNIQUE,divida REAL(100,2))", {}).then((data) => {
                   //alert("TABLE CREATED");
                   console.log("TABLE CREATED: ", data);
 

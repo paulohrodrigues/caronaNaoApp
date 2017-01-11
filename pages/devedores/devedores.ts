@@ -43,7 +43,7 @@ export class DevedoresPage {
   inputSaldo(pessoa) {
     let prompt = this.alertCtrl.create({
       title: 'Pagamento',
-      message: "Digite o valor que receberá de "+pessoa.nome+", ela deve R$ "+ Math.abs(pessoa.divida.toFixed(2)),
+      message: "Digite o valor que receberá de"+pessoa.nome+", o saldo dela é R$ "+pessoa.divida.toFixed(2),
       inputs: [
         {
           name: 'saldo',
@@ -96,14 +96,28 @@ export class DevedoresPage {
         {
           text: 'Editar',
           handler: data => {
-            this.db.atualiza("nome='"+data.nome+"',celular='"+data.celular+"',divida="+data.saldo,"celular=?",[pessoa.celular]).then(()=>{
+            this.db.atualiza("nome='"+data.nome+"',celular='"+data.celular+"',divida="+data.saldo,"celular=?",[pessoa.celular]).then((data)=>{
+              if(!data){
+                this.alertDeErro();
+              }
               this.initializeItems();
+            }).catch(()=>{
+              this.alertDeErro();
             });
           }
         }
       ]
     });
     prompt.present();
+  }
+
+  alertDeErro(){
+    let alert = this.alertCtrl.create({
+      title: 'Aviso!',
+      subTitle: "Verifique se o número do celular já não esta cadastrado com outro usuário",
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   recebe(pessoa,r){

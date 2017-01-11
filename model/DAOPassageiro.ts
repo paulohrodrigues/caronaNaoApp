@@ -1,7 +1,7 @@
 import {Passageiro} from "../controller/passageiro";
 import {Component} from '@angular/core';
 import {StatusBar, SQLite} from 'ionic-native';
-import {Platform} from 'ionic-angular';
+import {Platform,AlertController} from 'ionic-angular';
 
 export class DAOPassageiro{
 
@@ -72,7 +72,6 @@ export class DAOPassageiro{
 
                     console.log("ERROR: " + JSON.stringify(error));
                     resolve(false); 
-                
                 });
 
             }, (error) => {
