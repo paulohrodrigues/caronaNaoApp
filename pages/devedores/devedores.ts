@@ -43,9 +43,10 @@ export class DevedoresPage {
   inputSaldo(pessoa) {
     let prompt = this.alertCtrl.create({
       title: 'Pagamento',
-      message: "Digite o valor que receberá de"+pessoa.nome+", o saldo dela é R$ "+pessoa.divida.toFixed(2),
+      message: "Digite o valor que receberá de "+pessoa.nome+", o saldo dela é R$ "+pessoa.divida.toFixed(2),
       inputs: [
         {
+          type:'number',
           name: 'saldo',
           placeholder: '00.00'
         },
@@ -82,6 +83,7 @@ export class DevedoresPage {
           value: pessoa.celular
         },
         {
+          type: 'number',
           name: 'saldo',
           value: pessoa.divida
         },

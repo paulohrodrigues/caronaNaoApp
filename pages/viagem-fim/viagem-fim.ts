@@ -45,6 +45,7 @@ export class ViagemFimPage {
       message: "Qual a quilometragem atual do veículo?",
       inputs: [
         {
+          type:'number',
           name: 'title',
           placeholder: '00000'
         },
@@ -120,6 +121,7 @@ export class ViagemFimPage {
         //alert(this.passageiros[key].celular);
       }
       
+      //this.navCtrl1.push(DevedoresPage);
       this.navCtrl1.setRoot(DevedoresPage);
     
     }else{
