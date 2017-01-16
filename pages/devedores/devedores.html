@@ -22,7 +22,11 @@
         <ion-col><span class="text-Default">DÉBITO</span></ion-col>
       </ion-row>
     </ion-list-header>
-
+    <div class="helpSentences" *ngIf='devedores.length < 1'>
+      <b>Não há devedores</b>
+      <br>Você ainda não criou nenhuma viagem.
+       Depois que criá-las, você encontrará devedores aqui.
+    </div>
     <ion-item-sliding *ngFor="let devedor of devedores">
       <ion-item>
         <ion-icon name="person" item-left></ion-icon>

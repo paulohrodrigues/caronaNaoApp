@@ -30,6 +30,17 @@
       </ion-list-header>
       <ion-searchbar (ionInput)="getItems($event)" placeholder="Busca" class="semBorda"></ion-searchbar>
       <ion-list radio-group class="comScroll" [(ngModel)]="pessoaSelecionada">
+        <div class="helpSentences" *ngIf='devedores.length < 1'>
+          <br><b>Não há passageiros registrados</b>
+          <div class="claro">
+            <br>
+            <br>
+            Clique em <b>criar novo</b> para adicionar um passageiro na viagem.
+            <br>
+            <b>Criar novo</b> serve adicionar passageiros que não aparecem aqui, ou seja,
+            ainda não foram registrados.
+          </div>
+        </div>
         <ion-item *ngFor="let devedor of devedores">
           <ion-label>
             <h4 class="nome">{{devedor.nome}}</h4>
