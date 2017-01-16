@@ -15,6 +15,10 @@
   </button>
 -->
   <ion-list>
+    <div class="helpSentences" *ngIf='passageiros.length < 1'>
+      <br><b>Não há passageiros</b>
+      <br>Adicione pelo menos um passageiro.
+    </div>
     <ion-item-sliding *ngFor="let passageiro of passageiros">
       <ion-item>
         <ion-icon name="person" item-left></ion-icon>
