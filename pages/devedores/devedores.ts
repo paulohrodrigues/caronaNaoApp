@@ -14,8 +14,10 @@ export class DevedoresPage {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
     this.db=new DAOPassageiro();
     this.initializeItems();
+    this.devedores = [
+        ];
   }
-
+  
   remove(pessoa) {
     let confirm = this.alertCtrl.create({
       title: 'Realmente deseja excluir?',
