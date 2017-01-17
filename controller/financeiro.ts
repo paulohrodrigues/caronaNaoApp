@@ -13,8 +13,8 @@ export class Financeiro{
     }
 
     calculaPrecoDeUmCaminho(inicial:number,final:number){
-        final=final*0.1;
-        inicial=inicial*0.1;
+        //final=final*0.1;
+        //inicial=inicial*0.1;
         return ((this.precoPorLitro * (final-inicial)) / this.KmPorLitro).toFixed(2);
     }
 
